@@ -1,38 +1,14 @@
+const EventObserver = require("./event-observer");
 const Connection = require("./db/connection");
 const DaoManager = require("./dao/index");
 const ManufacturerBuilder = require("./dao/manufacturer/manufacturer-builder");
 const TypeBuilder = require("./dao/type/type-builder");
 const MatrixBuilder = require("./dao/matrix/matrix-builder");
 const PhoneBuilder = require("./dao/phone/phone-builder");
+const eo = new EventObserver();
 
-// test cases
-
-async function insertOne() {
-	try {
-		const dbConnection = await Connection.getConnection("mysql");
-		const manufacturerDao = DaoManager.getDao("manufacturer", dbConnection);
-		const manufacturerToInsert = new ManufacturerBuilder()
-			.addName("HTC")
-			.build();
-		await manufacturerDao.insert(manufacturerToInsert);
-
-		console.log(await manufacturerDao.findAll());
-	} catch (e) {
-		console.warn(e);
-	}
-}
-
-async function deleteOne() {
-	try {
-		const dbConnection = await Connection.getConnection("mysql");
-		const manufacturerDao = DaoManager.getDao("manufacturer", dbConnection);
-		await manufacturerDao.delete(1);
-
-		console.log(await manufacturerDao.findAll());
-	} catch (e) {
-		console.warn(e);
-	}
-}
+eo.on("phoneInserted", () => console.log("new Phone inserted"));
+eo.on("phoneFound", (phone) => console.log("Phone was just found: ", phone));
 
 async function insertPhone() {
 	try {
@@ -64,11 +40,20 @@ async function insertPhone() {
 			.build();
 
 		await phoneDao.insert(phoneToInsert);
-
-		console.log(await phoneDao.findAll());
 	} catch (e) {
 		console.warn(e);
 	}
 }
-// insertOne()
-insertPhone();
+
+async function findPhones() {
+	try {
+		const dbConnection = await Connection.getConnection("mysql");
+		const phoneDao = DaoManager.getDao("phone", dbConnection);
+		await phoneDao.findAll();
+	} catch (error) {
+		console.warn(e);
+	}
+}
+
+// insertPhone();
+findPhones();
