@@ -30,9 +30,8 @@ class PhoneDao {
 			new MatrixDao(this.pool).findWithName(phone.matrix),
 		]);
 		const results = await this.pool.execute(
-			"UPDATE `phone` WHERE id = ? SET `model` = ?, `ram` = ?, `hard` = ?, `diagonal` = ?, `matrix_id` = ?, `type_id` = ?, `manufacturer_id` = ?",
+			"UPDATE `phone` SET `model` = ?, `ram` = ?, `hard` = ?, `diagonal` = ?, `matrix_id` = ?, `type_id` = ?, `manufacturer_id` = ? WHERE id = ?",
 			[
-				id,
 				phone.model,
 				phone.ram,
 				phone.hard,
@@ -40,10 +39,11 @@ class PhoneDao {
 				matrixEntity.id,
 				typeEntity.id,
 				manufacturerEntity.id,
+				id,
 			]
 		);
 
-		this.eo.emit("phoneUpdated", [results[0][0]]);
+		this.eo.emit("phoneUpdated", [results]);
 		return results[0][0];
 	}
 
