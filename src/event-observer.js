@@ -10,11 +10,12 @@ class EventObserver {
 	}
 
 	on(event, cb) {
-		this.listeners[event] = cb;
+		this.listeners[event] = this.listeners[event] || []
+		this.listeners[event].push(cb);
 	}
 	emit(event, params) {
 		process.nextTick(() => {
-			this.listeners[event].call(null, ...params);
+			this.listeners[event].forEach(e => e.call(null, ...params));
 		});
 	}
 }

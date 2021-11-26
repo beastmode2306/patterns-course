@@ -9,6 +9,9 @@ const eo = new EventObserver();
 
 eo.on("phoneInserted", () => console.log("new Phone inserted"));
 eo.on("phoneFound", (phone) => console.log("Phone was just found: ", phone));
+eo.on("phoneFound", (phone) =>
+	console.log("Writing snapshots to file .... ", phone)
+);
 
 async function insertPhone() {
 	try {
