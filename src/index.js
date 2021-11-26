@@ -78,17 +78,24 @@ async function updateInSequence() {
 		caretaker.addSnapshot(phoneToUpdate2);
 		caretaker.addSnapshot(phoneToUpdate3);
 
-		await phoneDao.insert(phoneToInsert);
+		console.log(caretaker.restoreSnapshot());
+		console.log(caretaker.restoreSnapshot());
+		console.log(caretaker.restoreSnapshot());
+		console.log(caretaker.restoreSnapshot());
+		console.log(caretaker.restoreSnapshot());
+		console.log(caretaker.restoreSnapshot());
 
-		await phoneDao.update(1, phoneToUpdate1);
-		await phoneDao.update(1, phoneToUpdate2);
-		await phoneDao.update(1, phoneToUpdate3);
+		// await phoneDao.insert(phoneToInsert);
 
-		console.log(await phoneDao.find(1));
+		// await phoneDao.update(1, phoneToUpdate1);
+		// await phoneDao.update(1, phoneToUpdate2);
+		// await phoneDao.update(1, phoneToUpdate3);
 
-		await phoneDao.update(1, caretaker.restoreSnapshot(0));
+		// console.log(await phoneDao.find(1));
 
-		console.log(await phoneDao.find(1));
+		// await phoneDao.update(1, caretaker.restoreSnapshot(0));
+
+		// console.log(await phoneDao.find(1));
 	} catch (e) {
 		console.warn(e);
 	}

@@ -13,8 +13,8 @@ class Caretaker {
 		this.values.push(new Memento(snapshot));
 	}
 
-	restoreSnapshot(idx) {
-		return this.values[idx].value;
+	restoreSnapshot() {
+		return this.values.pop();
 	}
 }
 
